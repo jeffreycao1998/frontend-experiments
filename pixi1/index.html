@@ -21,41 +21,54 @@
     let _w = window.innerWidth;
     let _h = window.innerHeight;
 
-    const renderer = new PIXI.Renderer({
+    const app = new PIXI.Application({
       view: canvas,
       width: _w,
       height: _h,
-      resolution: window.devicePixelRatio,
-      autoDensity: true,
     });
 
-    window.addEventListener('resize', resize);
+    let loader = PIXI.Loader.shared;
+    
+    loader
+      .add("man", "sprite.png")
+      .add("bg", "sprite2.png")
+      .on('progress', handleLoadProgress)
+      .on('load', handleLoadAsset)
+      .on('error', handleLoadError)
+      .load(handleLoadComplete);
 
-    function resize() {
-      _w = window.innerWidth;
-      _h = window.innerHeight;
+    let img;
 
-      renderer.resize(_w, _h);
+    function handleLoadProgress(loader, resource) {
+      console.log(`${loader.progress} % loaded`);
     }
 
-    const stage = new PIXI.Container();
+    function handleLoadAsset(loader, resource) {
+      console.log(`asset loaded ${resource.name}`);
+    }
 
-    const texture = PIXI.Texture.from('./sprite.png');
-    const img = new PIXI.Sprite(texture);
+    function handleLoadError() {
+      console.log('load error');
+    }
 
-    img.anchor.x = 0.5;
-    img.anchor.y = 0.5;
-    stage.addChild(img);
+    function handleLoadComplete() {
+      let texture = loader.resources.man.texture;
+      img = new PIXI.Sprite(texture);
+      img.anchor.x = 0.5;
+      img.anchor.y = 0.5;
+      app.stage.addChild(img);
 
-    const ticker = new PIXI.Ticker();
-    ticker.add(animate);
-    ticker.start();
+      app.ticker.add(animate);
+
+      setTimeout(() => {
+        img.texture = loader.resources.bg.texture;
+      }, 2000);
+    }
 
     function animate() {
-      img.x = renderer.screen.width / 2;
-      img.y = renderer.screen.height / 2;
-      img.rotation += 0.01;
-      renderer.render(stage);
+      img.x = app.renderer.screen.width / 2;
+      img.y = app.renderer.screen.height / 2
+      img.rotation += 0.02;
     };
   </script>
 
