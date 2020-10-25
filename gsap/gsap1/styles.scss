@@ -1,0 +1,62 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  header, footer {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+
+    h1 {
+      font-size: 60px;
+    }
+  }
+
+  section {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .full-pizza {
+    background-image: linear-gradient(
+      45deg, 
+      #ff9a9e 0%, 
+      #fad0c4 99%, 
+      #fad0c4 100% 
+    );
+    position: relative;
+    overflow: hidden;
+
+    .pizza-half {
+      height: 400px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .pizza-slice {
+      position: absolute;
+      height: 400px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .burger-exploded {
+    background-image: linear-gradient(-225deg, #3D4E81 0%, #5753C9 48%, #6E7FF3 100%);
+    .burger-piece {
+      height: 800px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
